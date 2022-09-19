@@ -57,7 +57,7 @@ export default function Login() {
                     <div className="form-group mt-3">
                         <input 
                             type="name"
-                            placeholder="Şirket Kodu"
+                            placeholder="Firma Kodu"
                             name="companyCode"
                             value={companyCode}
                             onChange={(event) => setCompanyCode(event.target.value)}
@@ -86,6 +86,8 @@ export default function Login() {
                             Login
                         </button>
                     </div>
+
+                    
                 </div>
             </form>
         </div>
