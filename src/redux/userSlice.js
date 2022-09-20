@@ -9,6 +9,7 @@ export const loginAsync = createAsyncThunk(
         formData.append('Username', payload.username)
         formData.append('Password', String(payload.password))
     
+        // "/Auth" requires body to be formData including company code, username, password 
         const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Auth',{
             method: 'POST',
             body: formData 
@@ -25,6 +26,7 @@ export const getCompaniesAsync = createAsyncThunk(
 	'user/getCompaniesAsync',
 	async (payload) => {
 
+        //uses token received by login fetch
         const access_token = payload.token
 
 		const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/getAll',{
@@ -50,6 +52,11 @@ export const addCompanyAsync = createAsyncThunk(
         const isActive= payload.isActive
         const modifierUserId= payload.modifierUserId
         
+        // "/Company/Add" requires a body including 
+        // company code, 
+        // company name,
+        // isActive value, 
+        // and userID belongs to the user who adds the company 
 		const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Add',{
             method: 'POST',    
             headers: {
@@ -131,6 +138,7 @@ export const userSlice = createSlice({
 		},
 
         [deleteCompanyAsync.fulfilled]: (state, action) => {
+            // deletes company with the given ID from companies array in the state
 			return state.user.companies.filter((company) => company.id !== action.payload.id);
 		},
     }

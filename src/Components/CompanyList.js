@@ -15,21 +15,27 @@ const CompanyList = () => {
 
     const dispatch = useDispatch();
 
+    // Render after each companies array update(delete,add)
     useEffect(() => {
 		dispatch(getCompaniesAsync({ token: accessToken }));
 	}, [dispatch,companies]);
 
+    // function of "Firma Ekle" button 
     const toggleAddInputs = () => {
         setShowAddInputs(!showAddInputs)
 	};
 
     return (
         <div>
+            {/* FIRMA EKLE BUTTON AND INPUTS */}
             <div className='container'> 
                 <div className='row justify-content-between '> 
+
+                    {/* Hides input boxes */}
                     <div className='col-md-11 col-sm-12 mt-2'>
                         {(showAddInputs && <AddCompany/>)}
                     </div>
+
                     <div className="col-md-1 mt-2 d-flex justify-content-end mb-4 align-middle">
                         <button 
                             type="button" 
@@ -42,9 +48,12 @@ const CompanyList = () => {
                             &nbsp; Firma Ekle 
                         </button>
                     </div>
+
                 </div>
             </div>
+            {/* COMPANY TABLE */}
             <table className="table align-middle">
+
                 <thead >
                     <tr className="table-secondary">
                         <th>Firma Kodu</th>
@@ -52,12 +61,13 @@ const CompanyList = () => {
                         <th></th>
                     </tr>
                 </thead>   
+                {/* Calls the company component for each company in the companies list */}
                 <tbody>
                     {companies.map((company ,key) => (
                         <Company key={key} companyId={company.companyId} companyName={company.companyName} companyCode={company.companyCode} />
                     ))}
                 </tbody>   
-                
+
             </table>
         </div>
     )

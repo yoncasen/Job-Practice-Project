@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../redux/userSlice";
 
 
-export default function Login() {
+const Login = () => {
 
     const [username, setUsername] = useState('')
     const [companyCode, setCompanyCode] = useState('')
@@ -16,16 +16,15 @@ export default function Login() {
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn)
 
+    // To rerender after login dispatch
     useEffect(() => {
         if(isLoggedIn) {
             navigate('/main')
         }
     },[navigate,isLoggedIn])
 
-
     const onSubmit = (e) => {
         e.preventDefault()
-
         dispatch(loginAsync({
             username: username,
             password: password,
@@ -87,9 +86,10 @@ export default function Login() {
                         </button>
                     </div>
 
-                    
                 </div>
             </form>
         </div>
     )
 }
+
+export default Login
