@@ -41,19 +41,27 @@ export const getCompaniesAsync = createAsyncThunk(
 );
 
 export const addCompanyAsync = createAsyncThunk(
-	'user/addCompaniesAsync',
+	'user/addCompanyAsync',
 	async (payload) => {
 
-        const access_token = payload.token
-
-        ////////////////////////
-        // WHAT IS THE ADDRESS FOR ADDING COMPANY
-        //////////////////////
-		const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/',{
+        const access_token = payload.accessToken
+        const companyCode= payload.companyCode
+        const companyName= payload.companyName
+        const isActive= payload.isActive
+        const modifierUserId= payload.modifierUserId
+        
+		const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Add',{
             method: 'POST',    
             headers: {
                 'Authorization' : `Bearer ${access_token}`
-            }
+                ,'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                companyCode: companyCode,
+                companyName: companyName,
+                isActive: isActive,
+                modifierUserId: modifierUserId
+            })
         });
 		if (resp.ok) {
 			const company = await resp.json();
@@ -61,6 +69,25 @@ export const addCompanyAsync = createAsyncThunk(
 		}
 	}
 );
+
+export const deleteCompanyAsync = createAsyncThunk(
+    'user/deleteCompanyAsync',
+    async(payload) => {
+
+        const access_token = payload.accessToken
+        const companyId = payload.id
+
+        const resp = await fetch(`http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Delete/${companyId}`,{
+            method: 'DELETE',    
+            headers: {
+                'Authorization' : `Bearer ${access_token}`
+            }
+        });
+		if (resp.ok) {
+			return { id : companyId };
+		}
+    }
+)
 
 
 export const userSlice = createSlice({
@@ -75,11 +102,6 @@ export const userSlice = createSlice({
     },
 
     reducers : {
-
-        // logout: (state) => {
-        //     state.user = null
-        //     state.isLoggedIn = false
-        // }
 
     },
     extraReducers:{
@@ -101,11 +123,15 @@ export const userSlice = createSlice({
 
         [getCompaniesAsync.fulfilled]: (state, action) => {
             state.companies = action.payload.companies
-			return state;
+            return state;
 		},
 
         [addCompanyAsync.fulfilled]: (state, action) => {
-			state.push(action.payload.companies);
+			state.companies.push(action.payload.company);
+		},
+
+        [deleteCompanyAsync.fulfilled]: (state, action) => {
+			return state.user.companies.filter((company) => company.id !== action.payload.id);
 		},
     }
 })
