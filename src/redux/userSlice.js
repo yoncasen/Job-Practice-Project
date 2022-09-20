@@ -18,14 +18,16 @@ export const loginAsync = createAsyncThunk(
         if (resp.ok) {
             const response = await resp.json();
             return { response };
-        }              
+        }else {
+            return (console.log("bos ya da hatalı girdi"))
+        }           
     }
 )
 
 export const getCompaniesAsync = createAsyncThunk(
 	'user/getCompaniesAsync',
 	async (payload) => {
-
+        
         //uses token received by login fetch
         const access_token = payload.token
 
@@ -34,11 +36,12 @@ export const getCompaniesAsync = createAsyncThunk(
                 'Authorization' : `Bearer ${access_token}`
             }
         });
-
 		if (resp.ok) {
 			const companies = await resp.json();
 			return { companies };
-		}
+		}else{
+            return(console.log("getCompaniesAsync error"))
+        }
 	}
 );
 
@@ -73,7 +76,9 @@ export const addCompanyAsync = createAsyncThunk(
 		if (resp.ok) {
 			const company = await resp.json();
 			return {company};
-		}
+		}else{
+            return (console.log("addCompanyAsync error"))
+        }
 	}
 );
 
@@ -92,7 +97,9 @@ export const deleteCompanyAsync = createAsyncThunk(
         });
 		if (resp.ok) {
 			return { id : companyId };
-		}
+		}else{
+            return(console.log("deleteCompanyAsync error"))
+        }
     }
 )
 
@@ -114,7 +121,7 @@ export const userSlice = createSlice({
     extraReducers:{
 
         [loginAsync.fulfilled] : (state, action) => {
-
+            
             state.user = action.payload.response.user
             state.token = action.payload.response.token
 
