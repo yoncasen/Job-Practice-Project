@@ -28,18 +28,18 @@ const CompanyList = () => {
     return (
         <div>
             {/* FIRMA EKLE BUTTON AND INPUTS */}
-            <div className='container'> 
-                <div className='row justify-content-between '> 
+            <div className='container mb-4'> 
+                <div className='row justify-content-between align-items-center'> 
 
                     {/* Hides input boxes */}
-                    <div className='col-md-11 col-sm-12 mt-2'>
+                    <div className='col-lg-10 col-md-11 col-sm-12 '>
                         {(showAddInputs && <AddCompany/>)}
                     </div>
 
-                    <div className="col-md-1 mt-2 d-flex justify-content-end mb-4 align-middle">
+                    <div className="col-md-1 mt-2 d-flex justify-content-end mb-2">
                         <button 
                             type="button" 
-                            className="btn btn-success" 
+                            className="btn btn-dark" 
                             onClick={toggleAddInputs}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">

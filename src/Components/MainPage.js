@@ -17,6 +17,7 @@ const MainPage = () => {
 
     return (
       <div>
+        
         <div className='container bg-white p-4 mt-5'>
           <CompanyList/>
         </div>

@@ -22,12 +22,12 @@ const Company = ({companyId, companyName, companyCode}) => {
     return (
 		<tr>
 			{/* FIRST COLUMN */}
-			<td className="col-5">{companyCode}</td>
+			<td className="col-5 align-middle">{companyCode}</td>
 			{/* SECOND COLUMN */}
-			<td className="col-5">{companyName}</td>
+			<td className="col-5 align-middle">{companyName}</td>
 			{/* OPTIONS (EDIT,DELETE) COLUMN */}
 			<td className="col-2">
-				<div className="d-flex flex-row m-0">
+				<div className="d-flex flex-row justify-content-end">
 
 					<div className="col-4">
 						<button 

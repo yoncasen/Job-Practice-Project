@@ -42,7 +42,7 @@ const AddCompany = () => {
           name="companyCode"
           value={companyCode}
           onChange={(event) => setCompanyCode(event.target.value)}
-          className='col-lg-5 col-md-4'
+          className='col-lg-5 col-md-4 mt-md-0'
         >
         </input>
         <input 
@@ -51,10 +51,10 @@ const AddCompany = () => {
           name="companyName"
           value={companyName}
           onChange={(event) => setCompanyName(event.target.value)}
-          className='col-lg-5 col-md-4 offset-lg-1'
+          className='col-lg-5 col-md-4 offset-lg-1 offset-md-1 mt-3 mt-md-0'
         >
         </input>
-        <div className='col-lg-1 col-md-1'>
+        <div className='col-lg-1 col-md-1 offset-5 offset-md-0 mt-3 mt-md-0'>
           <button 
             type="submit" 
             className="btn btn-success " 
