@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice,current } from "@reduxjs/toolkit";
 
 export const loginAsync = createAsyncThunk(
     'auth/loginAsync',
@@ -18,30 +18,29 @@ export const loginAsync = createAsyncThunk(
         if (resp.ok) {
             const response = await resp.json();
             return { response };
-        }else {
-            return (console.log("bos ya da hatalı girdi"))
-        }           
+        }             
     }
 )
 
 export const getCompaniesAsync = createAsyncThunk(
 	'user/getCompaniesAsync',
 	async (payload) => {
-        
+
         //uses token received by login fetch
         const access_token = payload.token
 
+        //Companies with false isActive value are not listed with getAll fetch
 		const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/getAll',{
             headers: {
                 'Authorization' : `Bearer ${access_token}`
             }
         });
+
 		if (resp.ok) {
 			const companies = await resp.json();
 			return { companies };
-		}else{
-            return(console.log("getCompaniesAsync error"))
-        }
+		}
+        
 	}
 );
 
@@ -74,11 +73,48 @@ export const addCompanyAsync = createAsyncThunk(
             })
         });
 		if (resp.ok) {
-			const company = await resp.json();
+			const company = {
+                companyCode: companyCode,
+                companyName: companyName
+            }
 			return {company};
-		}else{
-            return (console.log("addCompanyAsync error"))
-        }
+		}
+        else if (!resp.ok){
+            //eger add yapamıyorsam 
+            //eklemeye calıstıgım companycode a sahip sirket 
+            //databasede var demektir sadece isActive degeri false yapılmıstır
+
+            //if !resp.ok
+            //find the company in database
+            //fetch put method with is active = true
+
+            // const company = payload.companies.find(company => company.companyCode = payload.companyCode)
+            
+            // console.log("company VAR", company)
+
+            // const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Update',{
+            //     method: 'PUT',    
+            //     headers: {
+            //         'Authorization' : `Bearer ${access_token}`
+            //         ,'content-type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         companyCode: companyCode,
+            //         companyName: companyName,
+            //         isActive: true,
+            //         modifierUserId: company.modifierUserId,
+            //         createdDate: company.createdDate,
+            //         excelMessage: company.excelMessage
+            //     })
+            // });
+            // if (resp.ok) {
+            //     const company = {
+            //         companyCode: companyCode,
+            //         companyName: companyName
+            //     }
+            //     return {company};
+            // }
+        } 
 	}
 );
 
@@ -89,6 +125,9 @@ export const deleteCompanyAsync = createAsyncThunk(
         const access_token = payload.accessToken
         const companyId = payload.id
 
+        //DELETE fetch does not delete the company completely, 
+        //just changes the isActive value to false
+        //Companies with false isActive value are not listed with getAll fetch
         const resp = await fetch(`http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Delete/${companyId}`,{
             method: 'DELETE',    
             headers: {
@@ -97,9 +136,7 @@ export const deleteCompanyAsync = createAsyncThunk(
         });
 		if (resp.ok) {
 			return { id : companyId };
-		}else{
-            return(console.log("deleteCompanyAsync error"))
-        }
+		}
     }
 )
 
@@ -121,7 +158,7 @@ export const userSlice = createSlice({
     extraReducers:{
 
         [loginAsync.fulfilled] : (state, action) => {
-            
+
             state.user = action.payload.response.user
             state.token = action.payload.response.token
 
@@ -141,12 +178,16 @@ export const userSlice = createSlice({
 		},
 
         [addCompanyAsync.fulfilled]: (state, action) => {
+            //temporary company object added to the companies list 
+            //it will be replaced with the real one after getCompanies fetch
 			state.companies.push(action.payload.company);
 		},
 
         [deleteCompanyAsync.fulfilled]: (state, action) => {
-            // deletes company with the given ID from companies array in the state
-			return state.user.companies.filter((company) => company.id !== action.payload.id);
+            // deletes company with the given ID from companies array in the state 
+            const companies = state.companies.filter((company) => company.companyId !== action.payload.id)
+            state.companies = companies
+            return state
 		},
     }
 })

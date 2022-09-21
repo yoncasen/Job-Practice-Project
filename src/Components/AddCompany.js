@@ -8,6 +8,7 @@ const AddCompany = () => {
   const [companyName, setCompanyName] = useState('')
   // const [isActive, setIsActive] = useState(false)
 
+  // const companies= useSelector((state) => state.user.companies)
   const modifierUserId= useSelector((state) => state.user.user.userId)
   const accessToken= useSelector((state) => state.user.token.accessToken)
 
@@ -24,7 +25,8 @@ const AddCompany = () => {
           companyName: companyName,
           isActive: true,
           modifierUserId: modifierUserId,
-          accessToken: accessToken
+          accessToken: accessToken,
+          // companies : companies
 				})
 			);
 		}

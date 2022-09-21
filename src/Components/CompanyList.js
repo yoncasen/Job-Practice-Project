@@ -1,4 +1,5 @@
 
+import { render } from '@testing-library/react'
 import React, { useEffect , useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -9,7 +10,7 @@ import Company from './Company'
 const CompanyList = () => {
 
     const [showAddInputs, setShowAddInputs] = useState(false)
-    
+
     const companies = useSelector((state) => state.user.companies);
     const accessToken = useSelector((state) => state.user.token.accessToken);
 
@@ -18,7 +19,7 @@ const CompanyList = () => {
     // Render after each companies array update(delete,add)
     useEffect(() => {
 		dispatch(getCompaniesAsync({ token: accessToken }));
-	}, [dispatch,companies]);
+	}, [dispatch,companies.length]);
 
     // function of "Firma Ekle" button 
     const toggleAddInputs = () => {

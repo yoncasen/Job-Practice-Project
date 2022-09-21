@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Navigate } from "react-router-dom";
 
 import CompanyList from './CompanyList'
-
 const MainPage = () => {
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn)
@@ -18,7 +17,7 @@ const MainPage = () => {
     return (
       <div>
         
-        <div className='container bg-white p-4 mt-5'>
+        <div className=' container bg-white p-4 mt-5'>
           <CompanyList/>
         </div>
       </div>
