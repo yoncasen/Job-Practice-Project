@@ -71,50 +71,49 @@ export const addCompanyAsync = createAsyncThunk(
                 isActive: isActive,
                 modifierUserId: modifierUserId
             })
-        });
-		if (resp.ok) {
-			const company = {
-                companyCode: companyCode,
-                companyName: companyName
+        })
+        .then (function (response){
+            if(response.ok) {
+                const company = {
+                    companyCode: companyCode,
+                    companyName: companyName
+                }
+                return {company};
+            } 
+            //Since code 400 is not an error, we need to force to throw an error,
+            //then handle the error with catch block 
+            else {
+                return Promise.reject(response)
             }
-			return {company};
-		}
-        else if (!resp.ok){
-            //eger add yapamıyorsam 
-            //eklemeye calıstıgım companycode a sahip sirket 
-            //databasede var demektir sadece isActive degeri false yapılmıstır
 
-            //if !resp.ok
-            //find the company in database
-            //fetch put method with is active = true
+        })
+        //catch block to handle response code 400
+        .catch(async function(err){
 
-            // const company = payload.companies.find(company => company.companyCode = payload.companyCode)
-            
-            // console.log("company VAR", company)
-
-            // const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Update',{
-            //     method: 'PUT',    
-            //     headers: {
-            //         'Authorization' : `Bearer ${access_token}`
-            //         ,'content-type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         companyCode: companyCode,
-            //         companyName: companyName,
-            //         isActive: true,
-            //         modifierUserId: company.modifierUserId,
-            //         createdDate: company.createdDate,
-            //         excelMessage: company.excelMessage
-            //     })
-            // });
-            // if (resp.ok) {
-            //     const company = {
-            //         companyCode: companyCode,
-            //         companyName: companyName
-            //     }
-            //     return {company};
-            // }
-        } 
+            const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Update',{
+                method: 'PUT',    
+                headers: {
+                    'Authorization' : `Bearer ${access_token}`
+                    ,'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    companyCode: companyCode,
+                    companyName: companyName,
+                    isActive: true,
+                    modifierUserId: modifierUserId,
+                })
+            });
+            if (resp.ok) {
+                const company = {
+                    companyCode: companyCode,
+                    companyName: companyName
+                }
+                return {company};
+            }
+        })
+        
+        return resp
+	
 	}
 );
 
