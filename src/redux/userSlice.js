@@ -90,25 +90,39 @@ export const addCompanyAsync = createAsyncThunk(
         //catch block to handle response code 400
         .catch(async function(err){
 
-            const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Update',{
-                method: 'PUT',    
-                headers: {
-                    'Authorization' : `Bearer ${access_token}`
-                    ,'content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                    companyCode: companyCode,
-                    companyName: companyName,
-                    isActive: true,
-                    modifierUserId: modifierUserId,
-                })
-            });
-            if (resp.ok) {
-                const company = {
-                    companyCode: companyCode,
-                    companyName: companyName
+            function search(companyCode, companies){
+                for (var i=0; i < companies.length; i++) {
+                    if (companies[i].companyCode.toString() === companyCode) {
+                        return companies[i];
+                    }
                 }
-                return {company};
+            }
+
+            const company = search(payload.companyCode, payload.companies)
+
+            if(company){
+                console.warn("Already Exists")
+            } else {
+                const resp = await fetch('http://192.168.12.12/ErpBagimsizMobileSiparisBackend/api/Company/Update',{
+                    method: 'PUT',    
+                    headers: {
+                        'Authorization' : `Bearer ${access_token}`
+                        ,'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        companyCode: companyCode,
+                        companyName: companyName,
+                        isActive: true,
+                        modifierUserId: modifierUserId,
+                    })
+                });
+                if (resp.ok) {
+                    const company = {
+                        companyCode: companyCode,
+                        companyName: companyName
+                    }
+                    return {company};
+                }
             }
         })
         
