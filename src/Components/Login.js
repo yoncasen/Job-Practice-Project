@@ -38,8 +38,8 @@ const Login = () => {
         <div className="">
           <a class="navbar-brand " href="https://arunayazilim.com/">
             <img
-              src="/logo-light.png"
-              className="float-start img-fluid"
+              src="./img/logo-light.png"
+              className="float-start img-fluid "
               alt="aruna-logo"
             />
           </a>
@@ -50,10 +50,10 @@ const Login = () => {
       LOGIN FORM
        */}
 
-      <div className="d-flex justify-content-center p-5">
+      <div className="d-flex container justify-content-center p-5">
         <form
           // col-sm-8 col-md-6 col-lg-5 col-xl-4
-          className="col-sm-8 col-md-6 col-lg-5 col-xl-4 p-5 was-validated"
+          className="col-sm-9 col-md-7 col-lg-5 col-xl-4 p-5 was-validated"
           onSubmit={onSubmit}
         >
           <div className="form-floating mb-4">
