@@ -5,12 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Login from "./Components/Login";
 import MainPage from "./Components/MainPage";
+import CompanyList from "./Components/CompanyList";
 
 const App = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Login />} />
-      <Route path="/main" element={<MainPage />} />
+      <Route path="/home" element={<MainPage />} />
+      <Route path="/company" element={<CompanyList />} />
     </Routes>
   );
 };
