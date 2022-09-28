@@ -42,11 +42,11 @@ const Company = ({ companyId, companyName, companyCode }) => {
               </svg>
             </button>
           </div>
-          -
+
           <div className="col-4">
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-danger "
               onClick={handleDeleteClick}
             >
               <svg

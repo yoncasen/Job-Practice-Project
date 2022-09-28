@@ -28,7 +28,7 @@ const CompanyList = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <div className="container border bg-white p-4 mt-5">
+      <div className="container bg-white p-4 mt-5">
         {/* FIRMA EKLE BUTTON AND INPUTS */}
         <div className="container mb-4">
           <div className="row justify-content-between align-items-center">
@@ -75,7 +75,7 @@ const CompanyList = () => {
             <tbody>
               {companies.map((company, key) => (
                 <Company
-                  key={key}
+                  key={company.companyId}
                   companyId={company.companyId}
                   companyName={company.companyName}
                   companyCode={company.companyCode}
